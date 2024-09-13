@@ -1,4 +1,4 @@
-import React,{lazy,Suspense} from "react";
+import React,{lazy,Suspense, useEffect, useState} from "react";
 import ReactDOM from 'react-dom/client';
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -6,7 +6,9 @@ import { createBrowserRouter,RouterProvider , Outlet} from "react-router-dom";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
-import RestaurantMenu from './components/RestaurantMenu'
+import RestaurantMenu from './components/RestaurantMenu';
+//import UserContext from  './utils/UserContext';
+import UserContext from "./utils/UserContext";
 
 //const heading = React.createElement('h1',{id:"heading1"},'hello world from react');
 //const root =  ReactDOM.createRoot(document.getElementById('root'));
@@ -30,11 +32,22 @@ import RestaurantMenu from './components/RestaurantMenu'
 
 const About = lazy(() => import("./components/About"))
 const AppLayout = () =>{
+    const [userName,setUserName] = useState();
+
+    useEffect(() => {
+
+      // make a api call and get the data
+      const data = {name : 'preeti'}
+      setUserName(data.name);
+    },[])
+
     return (
+    <UserContext.Provider value ={{loggedInUser:userName,setUserName}}>
     <div className="app" >
         <Header/>
         <Outlet/>
     </div>
+    </UserContext.Provider>  
     )
 }
 
